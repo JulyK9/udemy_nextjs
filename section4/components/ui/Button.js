@@ -9,6 +9,7 @@ const Button = (props) => {
           <a className={classes.btn}>{props.children}</a>
         </Link>
       ) : (
+        // 자동으로 버튼을 누르도록 onClick 실행
         <button className={classes.btn} onClick={props.onClick}>
           {props.children}
         </button>
