@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 // 동적 세그먼트 값 추출 => 이동한 페이지 url에 포함되어있음
 // url에서 year와 month를 추출해서 그것과 매칭되는 이벤트를 찾아줌
 import EventList from "../../components/events/EventList";
+import ResultsTitle from "../../components/events/ResultsTitle";
 
 const FilteredEventsPage = () => {
   const router = useRouter();
@@ -43,10 +44,13 @@ const FilteredEventsPage = () => {
     return <p>No events found for the chosen filter</p>;
   }
 
+  const date = new Date(numYear, numMonth - 1);
+
   return (
-    <div>
+    <>
+      <ResultsTitle date={date} />
       <EventList items={filteredEvents} />
-    </div>
+    </>
   );
 };
 
