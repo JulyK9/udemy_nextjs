@@ -5,9 +5,9 @@ const ProductDetailPage = (props) => {
   const { loadedproduct } = props;
 
   // fallback 기능을 true 작동시키면 fallback 상태를 반환할 수 있게 해줘야 함
-  // if (!loadedproduct) {
-  //   return <p>Loading...</p>;
-  // }
+  if (!loadedproduct) {
+    return <p>Loading...</p>;
+  }
   // fallback 반환 확인을 할 필요가 없을 때는 지워줌
 
   return (
@@ -37,6 +37,10 @@ export async function getStaticProps(context) {
   // 추출한 id로 product 필터링
   const product = data.products.find((product) => product.id === productId);
 
+  if (!product) {
+    return { notFound: true };
+  }
+
   // props를 통해 컴포넌트에 전달하여 사용
   return {
     props: {
@@ -58,8 +62,8 @@ export async function getStaticPaths() {
     //   // { params: { pid: "p2" } }, // fallback true로 인해 추가하지 않아도 로딩은 됨(다만 사전 생성되는건 아님)
     //   // { params: { pid: "p3" } },
     // ],
-    fallback: false,
-    // fallback: true, // 일부 페이지만 사전 렌더링 하는 속성
+    // fallback: false,
+    fallback: true, // 일부 페이지만 사전 렌더링 하는 속성
     // fallback: blocking, // 에러가 나진 않지만 계속 기다려서 페이지를 온전하게 보여주게 하고 싶은 경우
   };
 }
