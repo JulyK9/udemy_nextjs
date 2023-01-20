@@ -28,3 +28,8 @@ export async function getFeaturedEvents() {
   // return DUMMY_EVENTS.filter((event) => event.isFeatured);
   return allEvents.filter((event) => event.isFeatured);
 }
+
+export async function getEventById(id) {
+  const allEvents = await getAllEvents();
+  return allEvents.find((event) => event.id === id);
+}
