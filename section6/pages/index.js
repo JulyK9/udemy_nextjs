@@ -37,7 +37,7 @@ function HomePage(props) {
   //   }
   // }, [data]);
 
-  console.log(props.events);
+  // console.log(props.events);
 
   return (
     <div>
