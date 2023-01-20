@@ -6,7 +6,8 @@ import EventSummary from "../../components/event-detail/event-summary";
 import EventLogistics from "../../components/event-detail/event-logistics";
 import EventContent from "../../components/event-detail/event-content";
 import ErrorAlert from "../../components/ui/error-alert";
-import { getEventById, getAllEvents } from "../../helpers/api-util";
+// import { getEventById, getAllEvents } from "../../helpers/api-util";
+import { getEventById, getFeaturedEvents } from "../../helpers/api-util";
 
 function EventDetailPage(props) {
   // const router = useRouter();
@@ -16,11 +17,13 @@ function EventDetailPage(props) {
 
   // console.log(props);
 
+  // fallback 이 true 일때 표시해주는 부분
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No event found!</p>
-      </ErrorAlert>
+      <div className="center">Loading...</div>
+      // <ErrorAlert>
+      //   <p>No event found!</p>
+      // </ErrorAlert>
     );
   }
 
@@ -57,7 +60,8 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const events = await getAllEvents();
+  // const events = await getAllEvents();
+  const events = await getFeaturedEvents(); // 이렇게 하면 일부 페이지가 사전 생성되지 않음
 
   const paths = events.map((event) => ({ params: { eventId: event.id } }));
 
@@ -66,7 +70,9 @@ export async function getStaticPaths() {
     //   { params: { eventId: "e1" } }
     // ],
     paths: paths,
-    fallback: false,
+    // fallback: false, // 필요한 모든 페이지를 준비했다고 알리는 옵션은 false
+    fallback: true, // 위에서 설정한 event 가 없을 경루 early return 을 보여줌
+    // fallback: "blocking", // 이 경우는 페이지가 생성될 때까지 아무것도 하지 않음
   };
 }
 
