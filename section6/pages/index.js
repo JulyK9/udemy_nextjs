@@ -57,6 +57,7 @@ export async function getStaticProps() {
     props: {
       events: featuredEvents,
     },
+    revalidate: 1800, // 30분 - 이벤트 데이터가 자주 변할 게 아니기 때문
   };
 
   // // 먼저 작성해본 방식
