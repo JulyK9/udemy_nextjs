@@ -12,7 +12,7 @@ function AllEventsPage(props) {
   // 동적 라우팅을 위한 id 값 같은 것을 페칭하지는 않지만 프로그램화된 내비게이션을 구현하려면 필요
   const { events } = props;
 
-  console.log(events);
+  // console.log(events);
 
   function findEventsHandler(year, month) {
     const fullPath = `/events/${year}/${month}`;
