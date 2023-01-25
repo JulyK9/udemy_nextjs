@@ -7,8 +7,26 @@ function HomePage() {
   const submitFormHandler = (e) => {
     e.preventDefault();
 
+    // 입력폼 작성값 추출
     const enteredEmail = emailInputRef.current.value;
     const enteredFeedback = feedbackInputRef.current.value;
+
+    const reqBody = {
+      email: enteredEmail,
+      text: enteredFeedback,
+    };
+
+    // 예시 : { email: 'test@test.com', text: 'Some test feedback' }
+    // http 요청: 현재 도메인 뒤에 붙어서 절대 경로로 작동함
+    fetch("api/feedback", {
+      method: "POST",
+      body: JSON.stringify(reqBody), // req를 보내는 것이므로 JSON으로 변환해서 보내야 함
+      headers: {
+        "Content-Type": "application/json", // 특수문자가 들어가므로 작은따옴표를 쓰는 것 유의
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
   };
 
   return (
