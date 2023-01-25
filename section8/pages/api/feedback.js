@@ -1,6 +1,16 @@
 import fs from "fs";
 import path from "path";
 
+function buildFeedbackPath() {
+  return path.join(process.cwd(), "data", "feedback.json");
+}
+
+function extractFeedback(filePath) {
+  const fileData = fs.readFileSync(filePath); // 먼저 해당 경로의 파일의 데이터를 읽음
+  const data = JSON.parse(fileData); // 읽은 데이터를 js 객체로 변환
+  return data;
+}
+
 function handler(req, res) {
   if (req.method === "POST") {
     const email = req.body.email; // FE에서 넘어오는 객체 자료의 형태를 확인하여 request body의 특정 데이터 추출
@@ -13,16 +23,23 @@ function handler(req, res) {
     };
 
     // DB나 파일에 저장
-    const filePath = path.join(process.cwd(), "data", "feedback.json"); // 저장할 로컬 파일의 절대경로 생성
-    const fileData = fs.readFileSync(filePath); // 먼저 해당 경로의 파일의 데이터를 읽음
-    const data = JSON.parse(fileData); // 읽은 데이터를 js 객체로 변환
+    // const filePath = path.join(process.cwd(), "data", "feedback.json"); // 저장할 로컬 파일의 절대경로 생성
+    const filePath = buildFeedbackPath();
+
+    // const fileData = fs.readFileSync(filePath); // 먼저 해당 경로의 파일의 데이터를 읽음
+    // const data = JSON.parse(fileData); // 읽은 데이터를 js 객체로 변환
+    const data = extractFeedback(filePath);
+
     data.push(newFeedback); // 그 데이터(배열)에 FE에서 받아온 데이터를 넣어줌
     fs.writeFileSync(filePath, JSON.stringify(data)); // 다시 해당 경로 파일 데이터를 JSON 형식으로 변환
 
     // 성공적으로 파일이 업데이트 되면 응답해줄 내용
     res.status(201).json({ message: "Success!", feedback: newFeedback });
   } else {
-    res.status(200).json({ message: "This Works!" });
+    const filePath = buildFeedbackPath();
+    const data = extractFeedback(filePath);
+    // res.status(200).json({ message: "This Works!" });
+    res.status(200).json({ feedback: data });
   }
 }
 
