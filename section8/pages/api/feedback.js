@@ -1,11 +1,11 @@
 import fs from "fs";
 import path from "path";
 
-function buildFeedbackPath() {
+// 여기 말고도 다른 곳에서 쓰이기 때문에 export로 빼는 경우 아예 루트경로에서 helpers 폴더안에 파일을 만들고 함수를 저장해서 사용해도 좋음
+export function buildFeedbackPath() {
   return path.join(process.cwd(), "data", "feedback.json");
 }
-
-function extractFeedback(filePath) {
+export function extractFeedback(filePath) {
   const fileData = fs.readFileSync(filePath); // 먼저 해당 경로의 파일의 데이터를 읽음
   const data = JSON.parse(fileData); // 읽은 데이터를 js 객체로 변환
   return data;
