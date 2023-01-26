@@ -1,12 +1,34 @@
 import { buildFeedbackPath, extractFeedback } from "../api/feedback";
+import { useState } from "react";
 
 const FeedbackPage = (props) => {
+  const [feedbackData, setFeedbackData] = useState();
+
+  function loadFeedbackHandler(id) {
+    // 동적 라우터 트리거 하기
+    // fetch('/api/' + id)
+    fetch(`/api/${id}`) // /api/some-feedbackId
+      .then((res) => res.json())
+      .then((data) => {
+        setFeedbackData(data.feedback); // 동적 라우트 api에서 응답해준 데이터의 속성에 따름
+      });
+  }
+
   return (
-    <ul>
-      {props.feedbackItems.map((item) => (
-        <li key={item.id}>{item.text}</li>
-      ))}
-    </ul>
+    <>
+      {feedbackData && <p>{feedbackData.email}</p>}
+      <ul>
+        {props.feedbackItems.map((item) => (
+          <li key={item.id}>
+            {item.text}
+            {/* <button onClick={loadFeedbackHandler.bind(null, item.id)}>Show Details</button> */}
+            <button onClick={() => loadFeedbackHandler(item.id)}>
+              Show Details
+            </button>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
