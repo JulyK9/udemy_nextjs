@@ -1,5 +1,6 @@
 // 단일 피드백의 details를 페칭하기 위해 동적 api 라우터를 구현하는 케이스
-import { buildFeedbackPath, extractFeedback } from "./feedback";
+// import { buildFeedbackPath, extractFeedback } from ".";
+import { buildFeedbackPath, extractFeedback } from "./index";
 
 function handler(req, res) {
   // 쿼리 매개변수와 일반 매개변수에 액세스하게 해주는 req.query
