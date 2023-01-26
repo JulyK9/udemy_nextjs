@@ -1,4 +1,5 @@
-import { buildFeedbackPath, extractFeedback } from "../api/feedback";
+// import { buildFeedbackPath, extractFeedback } from "../api/feedback";
+import { buildFeedbackPath, extractFeedback } from "../api/feedback/index";
 import { useState } from "react";
 
 const FeedbackPage = (props) => {
@@ -7,7 +8,8 @@ const FeedbackPage = (props) => {
   function loadFeedbackHandler(id) {
     // 동적 라우터 트리거 하기
     // fetch('/api/' + id)
-    fetch(`/api/${id}`) // /api/some-feedbackId
+    // fetch(`/api/${id}`) // /api/some-feedbackId
+    fetch(`/api/feedback/${id}`) // /api/feedback/some-feedbackId
       .then((res) => res.json())
       .then((data) => {
         setFeedbackData(data.feedback); // 동적 라우트 api에서 응답해준 데이터의 속성에 따름
