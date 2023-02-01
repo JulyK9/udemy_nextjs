@@ -13,7 +13,7 @@ function handler(req, res) {
     }
 
     console.log(userEmail);
-    // res.status(201).json({ message: "success", addedEmail: userEmail });
+    res.status(201).json({ message: `${userEmail} Sign up Success!` });
   }
 }
 
