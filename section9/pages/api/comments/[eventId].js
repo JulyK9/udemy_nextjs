@@ -1,7 +1,7 @@
 // api/comments/eventId
 
 function handler(req, res) {
-  const evetId = req.query.eventId; // path에 입력된 값에 접근해서 id를 가져옴(파일명, 플레이스홀더가 eventId 이므로)
+  const eventId = req.query.eventId; // path에 입력된 값에 접근해서 id를 가져옴(파일명, 플레이스홀더가 eventId 이므로)
 
   if (req.method === "POST") {
     // const email = req.body.email;
@@ -11,6 +11,7 @@ function handler(req, res) {
 
     // 서버사이드에서 데이터 유효성 검사 추가
     if (
+      !email ||
       !email.includes("@") ||
       !name ||
       name.trim() === "" ||
@@ -28,7 +29,7 @@ function handler(req, res) {
       text,
     };
 
-    console.log(newComment);
+    // console.log(newComment);
 
     res
       .status(201)
@@ -37,8 +38,8 @@ function handler(req, res) {
 
   if (req.method === "GET") {
     const dummyList = [
-      { id: c1, name: "Bruno", text: "A first comment!" },
-      { id: c2, name: "Alex", text: "A Second comment!" },
+      { id: "c1", name: "Bruno", text: "A first comment!" },
+      { id: "c2", name: "Alex", text: "A Second comment!" },
     ];
 
     res.status(200).json({ comments: dummyList });
