@@ -1,5 +1,6 @@
 // api/comments/eventId
 import { MongoClient } from "mongodb";
+import { getAllDocuments } from "../../../helpers/db-util";
 
 async function handler(req, res) {
   const eventId = req.query.eventId; // path에 입력된 값에 접근해서 id를 가져옴(파일명, 플레이스홀더가 eventId 이므로)
@@ -56,13 +57,22 @@ async function handler(req, res) {
     //   { id: "c2", name: "Alex", text: "A Second comment!" },
     // ];
 
-    const db = client.db("events"); // events db에 접근해서
+    // const db = client.db("events"); // events db에 접근해서
 
-    const documents = await db
-      .collection("comments")
-      .find() // find 메서드는 컬렉션에더 데이터를 찾아주는데, 결과를 필터링해줄 수도 있음(여기선 모든 댓글이므로)
-      .sort({ _id: -1 }) // sort()는 결과를 정렬시켜줌 => 객체로 전달하면서 정렬할 키속성과 -1, +1로 내림차순,오름차순을 정해줌
-      .toArray(); // 모든 문서를 배열로 받기위해 배열화해줌 => 컬렉션의 모든 엔트리를 배열로 제공해줌
+    // const documents = await db
+    //   .collection("comments")
+    //   .find() // find 메서드는 컬렉션에더 데이터를 찾아주는데, 결과를 필터링해줄 수도 있음(여기선 모든 댓글이므로)
+    //   .sort({ _id: -1 }) // sort()는 결과를 정렬시켜줌 => 객체로 전달하면서 정렬할 키속성과 -1, +1로 내림차순,오름차순을 정해줌
+    //   .toArray(); // 모든 문서를 배열로 받기위해 배열화해줌 => 컬렉션의 모든 엔트리를 배열로 제공해줌
+
+    // 헬퍼함수 사용 버전
+    const documents = await getAllDocuments(
+      client,
+      "events",
+      "comments",
+      { _id: -1 },
+      { eventId: eventId } // 헬퍼함수에서 적용한 매개변수를 인자로 적용해서 특정 이벤트에 속항 댓글만 필터링 하도록 해줌
+    );
 
     // res.status(200).json({ comments: dummyList });
     res.status(200).json({ comments: documents });
