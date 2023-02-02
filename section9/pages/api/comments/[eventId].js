@@ -51,12 +51,21 @@ async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const dummyList = [
-      { id: "c1", name: "Bruno", text: "A first comment!" },
-      { id: "c2", name: "Alex", text: "A Second comment!" },
-    ];
+    // const dummyList = [
+    //   { id: "c1", name: "Bruno", text: "A first comment!" },
+    //   { id: "c2", name: "Alex", text: "A Second comment!" },
+    // ];
 
-    res.status(200).json({ comments: dummyList });
+    const db = client.db("events"); // events db에 접근해서
+
+    const documents = await db
+      .collection("comments")
+      .find() // find 메서드는 컬렉션에더 데이터를 찾아주는데, 결과를 필터링해줄 수도 있음(여기선 모든 댓글이므로)
+      .sort({ _id: -1 }) // sort()는 결과를 정렬시켜줌 => 객체로 전달하면서 정렬할 키속성과 -1, +1로 내림차순,오름차순을 정해줌
+      .toArray(); // 모든 문서를 배열로 받기위해 배열화해줌 => 컬렉션의 모든 엔트리를 배열로 제공해줌
+
+    // res.status(200).json({ comments: dummyList });
+    res.status(200).json({ comments: documents });
   }
   client.close(); // 꼭 잊지말고 닫아줘야 함
 }
