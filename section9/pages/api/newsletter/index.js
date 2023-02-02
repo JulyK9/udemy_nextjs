@@ -21,10 +21,12 @@ async function handler(req, res) {
     );
 
     // mongodb 클라이언트의 db에 접근(db네임)
-    const db = client.db("newsletter");
+    // const db = client.db("newsletter");
+    const db = client.db("events"); // 수정
 
     // db에 컬렉션에 접근하여(collection 메서드) 객체를 삽입(insertOne 메서드)
-    await db.collection("emails").insertOne({ email: userEmail });
+    // await db.collection("emails").insertOne({ email: userEmail });
+    await db.collection("newsletter").insertOne({ email: userEmail }); // 수정
 
     // 작업후 클라이언트 닫기
     client.close();

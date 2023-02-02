@@ -1,7 +1,13 @@
 // api/comments/eventId
+import { MongoClient } from "mongodb";
 
-function handler(req, res) {
+async function handler(req, res) {
   const eventId = req.query.eventId; // path에 입력된 값에 접근해서 id를 가져옴(파일명, 플레이스홀더가 eventId 이므로)
+
+  // 이 부분을 여러군데서 쓴다면 헬퍼함수로 빼는 방법도 좋음
+  const client = await MongoClient.connect(
+    "mongodb+srv://udemy_jk929jk:roqkfwk929!@boilerplate.axivy.mongodb.net/?retryWrites=true&w=majority"
+  );
 
   if (req.method === "POST") {
     // const email = req.body.email;
@@ -23,13 +29,21 @@ function handler(req, res) {
     }
 
     const newComment = {
-      id: new Date().toISOString(),
+      // id: new Date().toISOString(), // db연결시 id가 자동 생성되므로
       email,
       name,
       text,
+      eventId, // 해당 댓글이 속한 이벤트에 참조를 갖게하기 위해 추가 속성으로 저장
     };
 
+    const db = client.db("events");
+
+    const result = await db.collection("comments").insertOne(newComment);
+
     // console.log(newComment);
+    console.log("dbResult: ", result);
+
+    newComment.id = result.insertedId; // 생성된 고유 id를 프론트로 보낼 객체의 id로 부여해줌
 
     res
       .status(201)
@@ -44,6 +58,7 @@ function handler(req, res) {
 
     res.status(200).json({ comments: dummyList });
   }
+  client.close(); // 꼭 잊지말고 닫아줘야 함
 }
 
 export default handler;
