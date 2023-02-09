@@ -68,7 +68,7 @@ export function NotificationContextProvider(props) {
   };
 
   return (
-    //  Provider 컴포넌트에 대해 value 프로퍼티를 통해 연결된 모든 컴포넌트로 배포
+    // Provider 컴포넌트에 대해 value 프로퍼티를 통해 연결된 모든 컴포넌트로 배포
     // show 또는 hideNotificationHandler 호출 시 NotificationContextProvider 컴포넌트가 다시 렌더링 되고
     // 연관된 컴포넌트에 업데이트된 콘텍스트 객체를 배포하게 된다.
     <NotificationContext.Provider value={context}>
