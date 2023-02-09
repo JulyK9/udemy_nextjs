@@ -34,8 +34,10 @@ function Comments(props) {
 
     // 우선 펜딩 상태를 보여줌 (NewComment유효성 검사를 통과한후 로직이므로)
     notificationCtx.showNotification({
-      title: "Loading...",
-      message: "Loading for registering the comment.",
+      // title: "Loading...",
+      title: "Sending comment...",
+      // message: "Loading for registering the comment.",
+      message: "Your comment is currently being stored.",
       status: "pending",
     });
 
@@ -62,7 +64,8 @@ function Comments(props) {
       .then((data) => {
         notificationCtx.showNotification({
           title: "Success!",
-          message: "Successfully registered the comment.",
+          // message: "Successfully registered the comment.",
+          message: "Your commnet was saved.",
           status: "success",
         });
       })
