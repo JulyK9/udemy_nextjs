@@ -11,16 +11,21 @@ function Comments(props) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
 
+  // 로컬 상태 추가 : 상태가 하나의 컴포넌트에만 영향을 미칠 때는 전역으로 관리할 필요가 없으니까!
+  const [isFetchingComments, setIsFetchingComments] = useState(false);
+
   // useContext를 통해 스토어에 생성된 NotificationContext로 객체에 접근
   const notificationCtx = useContext(NotificationContext);
 
   useEffect(() => {
     if (showComments) {
+      setIsFetchingComments(true);
       fetch("/api/comments/" + eventId)
         .then((res) => res.json())
         .then((data) => {
           // console.log(data.comments);
           setComments(data.comments);
+          setIsFetchingComments(false);
         });
     }
   }, [showComments]);
@@ -87,7 +92,16 @@ function Comments(props) {
       </button>
       {showComments && <NewComment onAddComment={addCommentHandler} />}
       {/* 함수자체를 props로 내려줌 */}
-      {showComments && <CommentList items={comments} />}
+      {/* {showComments && <CommentList items={comments} />} */}
+      {showComments && !isFetchingComments && <CommentList items={comments} />}
+      {showComments && isFetchingComments && <p>Loading...</p>}
+      {/* 아래와 같이 삼항연산으로도 가능하다! */}
+      {/* {showComments &&
+        (isFetchingComments ? (
+          <p>Loading...</p>
+        ) : (
+          <CommentList items={comments} />
+        ))} */}
     </section>
   );
 }
