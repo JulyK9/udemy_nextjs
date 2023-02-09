@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 // 새로운 콘텍스트를 생성하여 알림을 제어할 목적
 
@@ -26,6 +26,25 @@ const NotificationContext = createContext({
 export function NotificationContextProvider(props) {
   // 표시될 알림을 저장하는 상태
   const [activeNotification, setActiveNotification] = useState();
+
+  useEffect(() => {
+    if (
+      activeNotification &&
+      (activeNotification.status === "success" ||
+        activeNotification.status === "error")
+    ) {
+      const timer = setTimeout(() => {
+        setActiveNotification(null);
+        // hideNotificationHandler()
+      }, 2000);
+
+      // useEffect에서 정리함수를 반환하여 실행한 타이머를 정리해줌
+      // useEffect가 다시 실행되면서 timer가 중복 실행되는 것을 방지하기 위해 정리해주는 것
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [activeNotification]);
 
   function showNotificationHandler(notificationData) {
     // 알림 정보를 매개변수로 표시
