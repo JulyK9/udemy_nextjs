@@ -1,5 +1,10 @@
 const AllPostsPage = () => {
-  return <div>AllPostsPage</div>;
+  return (
+    <>
+      <Hero />
+      <FeaturedPosts />
+    </>
+  );
 };
 
 export default AllPostsPage;
