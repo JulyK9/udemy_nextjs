@@ -1,3 +1,5 @@
+import MainNavigation from "./main-navigation";
+
 const Layout = (props) => {
   return (
     <>
