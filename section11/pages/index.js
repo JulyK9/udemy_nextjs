@@ -65,7 +65,7 @@ export function getStaticProps() {
     props: {
       posts: featuredPosts,
     },
-    // revalidate: 1800,
+    // revalidate: 1800, // 새 게시물을 작성하면 전체 project 폴더의 일부로서 재배포가 필수이기 때문에 여기서는 따로 추가하지 않음
   };
 }
 
