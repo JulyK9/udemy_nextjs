@@ -54,10 +54,14 @@ export function getAllPosts() {
 }
 
 // 모든 featured post를 다루는 헬퍼 함수
-function getFeaturedPosts() {
+export function getFeaturedPosts() {
   const allPosts = getAllPosts();
 
   const featuredPosts = allPosts.filter((post) => post.isFeatured);
 
   return featuredPosts;
 }
+
+// 로직상 모든 포스트를 가져오고나서 featured post를 가져오고 있음
+// 만일 바로 featured post만 가져오려면 데이터 소스를 별도로 두어야 함
+// 이는 게시물이 데이터가 매우 많은 경우 성능 개선을 위해 고려해볼 일이지만 현재는 그런 상황이 아니므로 위와 같은 로직으로 진행
