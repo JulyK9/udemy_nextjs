@@ -6,7 +6,9 @@ import matter from "gray-matter";
 // join 메서드로 탐색할 파일의 절대경로 생성
 // joins(process.cwd()) 는 루트(프로젝트) 폴더를 가리킴
 // 다음 인자로는 그 이하에서 탐색할 경로
-const postsDirectory = path.join(process.cwd(), "lib");
+// const postsDirectory = path.join(process.cwd(), "lib"); // 오류
+const postsDirectory = path.join(process.cwd(), "content/posts");
+// console.log(postsDirectory);
 
 export function getPostData(fileName) {
   // 확보한 파일의 절대경로에 파일 이름까지 합쳐서 해당 파일에 대한 전체 절대경로 확보
@@ -16,7 +18,7 @@ export function getPostData(fileName) {
   const { data, content } = matter(fileContent);
 
   const postSlug = fileName.replace(/\.md$/, ""); // 확장자를 제거(파읾여만 남기기)
-
+  // console.log("postSlug: ", postSlug);
   const postData = {
     slug: postSlug,
     ...data,
@@ -46,7 +48,7 @@ export function getAllPosts() {
   // 최신 게시물이 먼저 오도록 정렬
   // postA의 날짜가 postB 날짜보다 이후인지 확인(큰게 더 나중)
   // 이후 날짜 게시물(더 최신 게시물)이 먼저 표시되도록 설정
-  sortedPosts = allPosts.sort((postA, postB) =>
+  const sortedPosts = allPosts.sort((postA, postB) =>
     postA.date > postB.date ? -1 : 1
   );
 
