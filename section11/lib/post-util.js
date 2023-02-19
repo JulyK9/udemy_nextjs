@@ -10,14 +10,16 @@ import matter from "gray-matter";
 const postsDirectory = path.join(process.cwd(), "content/posts");
 // console.log(postsDirectory);
 
-export function getPostData(fileName) {
+// export function getPostData(fileName) {
+export function getPostData(postIdentifier) {
+  const postSlug = postIdentifier.replace(/\.md$/, ""); // 확장자를 제거(파일 경로만 남기기)
   // 확보한 파일의 절대경로에 파일 이름까지 합쳐서 해당 파일에 대한 전체 절대경로 확보
-  const filePath = path.join(postsDirectory, fileName);
+  const filePath = path.join(postsDirectory, `${postSlug}.md`);
   const fileContent = fs.readFileSync(filePath, "utf-8"); // 모든 유니코드 문자를 지원할 수 있도록 UTF-8로 부호화
 
   const { data, content } = matter(fileContent);
 
-  const postSlug = fileName.replace(/\.md$/, ""); // 확장자를 제거(파읾여만 남기기)
+  // const postSlug = fileName.replace(/\.md$/, ""); // 확장자를 제거(파일 경로만 남기기)
   // console.log("postSlug: ", postSlug);
   const postData = {
     slug: postSlug,
