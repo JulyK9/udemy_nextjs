@@ -10,6 +10,11 @@ import matter from "gray-matter";
 const postsDirectory = path.join(process.cwd(), "content/posts");
 // console.log(postsDirectory);
 
+// 분류나 매핑 없이 모든 게시물 이름을 가져오도록(각 게시물 파일을 미리 렌더링 할 때는 필요없는 과정임)
+export function getPostFiles() {
+  return fs.readdirSync(postsDirectory); // 파일 이름에 확장자까지 포함된 상태
+}
+
 // export function getPostData(fileName) {
 export function getPostData(postIdentifier) {
   const postSlug = postIdentifier.replace(/\.md$/, ""); // 확장자를 제거(파일 경로만 남기기)
@@ -33,7 +38,9 @@ export function getPostData(postIdentifier) {
 export function getAllPosts() {
   // 모든 콘텐츠를 동기식으로 읽음 => 디렉토리의 전체 콘텐츠를 한번에 읽어들이도록 함
   // readdirSync 메서드의 리턴값이 문자열을 요소로 하는 배열의 형태이므로
-  const postFiles = fs.readdirSync(postsDirectory);
+  // const postFiles = fs.readdirSync(postsDirectory);
+
+  const postFiles = getPostFiles(); // getAllPosts를 다른 파일에서 가져올 때마다 모든 파일을 읽는 것은 헤비하므로 리팩토링
 
   // 반복문으로 모든 파일(배열의 모든 요소)를 탐색하여 postData를 얻도록 함(배열 요소 탐색이므로 for of)
   // for (const postFile of postFiles) {
