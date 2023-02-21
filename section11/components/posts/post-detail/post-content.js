@@ -3,6 +3,8 @@ import classes from "./post-content.module.css";
 import PostHeader from "./post-header";
 
 import Image from "next/image";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { atomDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 // const DUMMY_POST = {
 //   title: "Getting Started with NextJS",
@@ -20,7 +22,7 @@ const PostContent = (props) => {
   const imagePath = `/images/posts/${post.slug}/${post.image}`;
 
   // 커스텀한 렌더러 오브젝트를 오버라이드 하기 위해 만들어줌
-  const cumstomRenderes = {
+  const customRenderes = {
     // img(image) {
     //   return (
     //     <Image
@@ -53,6 +55,21 @@ const PostContent = (props) => {
 
       return <p>{paragraph.children}</p>;
     },
+
+    code(code) {
+      // const { language, value } = code; // 예전 방식
+      // console.log(code); // 콘솔에서 code로 전달되는 객체를 확인해볼 수 있음
+      const { className, children } = code;
+      const language = className.split("-")[1];
+      // className is something like is 'language-js' => so need the 'js' part here
+      return (
+        <SyntaxHighlighter
+          style={atomDark}
+          language={language}
+          children={children}
+        />
+      );
+    },
   };
 
   return (
@@ -61,7 +78,7 @@ const PostContent = (props) => {
       <PostHeader title={post.title} image={imagePath} />
       {/* <p>{DUMMY_POST.content}</p> */}
       {/* <ReactMarkdown>{DUMMY_POST.content}</ReactMarkdown> */}
-      <ReactMarkdown components={cumstomRenderes}>{post.content}</ReactMarkdown>
+      <ReactMarkdown components={customRenderes}>{post.content}</ReactMarkdown>
     </article>
   );
 };
