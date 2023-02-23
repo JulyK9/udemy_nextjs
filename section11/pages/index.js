@@ -2,6 +2,8 @@ import FeaturedPosts from "../components/home-page/featured-posts";
 import Hero from "../components/home-page/hero";
 import { getFeaturedPosts } from "../lib/post-util";
 
+import Head from "next/head";
+
 const HomePage = (props) => {
   // const DUMMY_POSTS = [
   //   {
@@ -42,6 +44,13 @@ const HomePage = (props) => {
 
   return (
     <>
+      <Head>
+        <title>JK's BLOG</title>
+        <meta
+          name="description"
+          content="I post about programming and web development."
+        />
+      </Head>
       <Hero />
       {/* <FeaturedPosts /> */}
       {/* getStaticProps 를 통해 데이터를 가져와서 props로 하위 컴포넌트에 전달 */}

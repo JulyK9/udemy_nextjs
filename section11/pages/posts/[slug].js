@@ -1,8 +1,19 @@
 import PostContent from "../../components/posts/post-detail/post-content";
 import { getPostData, getPostFiles } from "../../lib/post-util";
+// 검색엔진에서 노출도에서 가장 중요한 페이지
+// 동적 데이터를 다루기 때문에 그에 맞게 메타 데이터를 다루는 것이 중요
+import Head from "next/head";
 
 const PostDetailPage = (props) => {
-  return <PostContent post={props.post} />;
+  return (
+    <>
+      <Head>
+        <title>{props.post.title}</title>
+        <meta name="description" content={props.post.excerpt} />
+      </Head>
+      <PostContent post={props.post} />
+    </>
+  );
   // return <div>PostDetailPage</div>;
 };
 
@@ -11,7 +22,7 @@ export function getStaticProps(context) {
   const { slug } = params;
   const postData = getPostData(slug);
 
-  console.log("postData: ", postData);
+  // console.log("postData: ", postData);
 
   return {
     props: { post: postData },

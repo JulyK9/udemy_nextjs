@@ -1,5 +1,6 @@
 import AllPosts from "../../components/posts/all-posts";
 import { getAllPosts } from "../../lib/post-util";
+import Head from "next/head";
 
 const AllPostsPage = (props) => {
   // const DUMMY_POSTS = [
@@ -38,7 +39,18 @@ const AllPostsPage = (props) => {
   // ]; // 더미 게시물 객체들의 배열
 
   // return <AllPosts posts={DUMMY_POSTS} />;
-  return <AllPosts posts={props.allPosts} />;
+  return (
+    <>
+      <Head>
+        <title>All Posts</title>
+        <meta
+          name="description"
+          content="A list of all programming-related tutorials and posts!"
+        />
+      </Head>
+      <AllPosts posts={props.allPosts} />
+    </>
+  );
 };
 
 export function getStaticProps() {
